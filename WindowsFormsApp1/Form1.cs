@@ -32,54 +32,56 @@ namespace WindowsFormsApp1
             
         }
 
-        private void LoadBtn_Click(object sender, EventArgs e)
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
-            Display.Items.Clear();
-            int skill = 0;
-            string index =comboBox1.SelectedItem.ToString();
-            if(index == "Firemaking")
             {
-                skill = 13;
-            }
-            List<string> rsUsers = new List<string>();
-            rsUsers.Add("HC Dankmemer");
-            rsUsers.Add("Iron Groleau");
-            rsUsers.Add("dank_mememan");
-            string sURL;
-            foreach (string name in rsUsers) {
-                sURL = "http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + name;
-                WebRequest wrGETURL;
-                wrGETURL = WebRequest.Create(sURL);
-                WebProxy myProxy = new WebProxy("myproxy", 80);
-                myProxy.BypassProxyOnLocal = true;
 
-                wrGETURL.Proxy = WebProxy.GetDefaultProxy();
-
-                Stream objStream;
-                objStream = wrGETURL.GetResponse().GetResponseStream();
-                StreamReader objReader = new StreamReader(objStream);
-                string sLine = "";
-                int i = 0;
-                while (sLine != null)
+                Display.Items.Clear();
+                int skill = 0;
+                string index = comboBox1.SelectedItem.ToString();
+                if (index == "Firemaking")
                 {
-                    i++;
-                    sLine = objReader.ReadLine();
-
-                    if (i == skill)
-                    {
-                        List<string> result = sLine.Split(',').ToList();
-                        Display.Items.Add(name + " has a firemaking lvl of " + result[1]);
-                    }
+                    skill = 13;
                 }
-                Console.ReadLine();
+                if (index == "Woodcutting")
+                {
+                    skill = 10;
+                }
+                List<string> rsUsers = new List<string>();
+                rsUsers.Add("HC Dankmemer");
+                rsUsers.Add("Iron Groleau");
+                rsUsers.Add("dank_mememan");
+                string sURL;
+                foreach (string name in rsUsers)
+                {
+                    sURL = "http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=" + name;
+                    WebRequest wrGETURL;
+                    wrGETURL = WebRequest.Create(sURL);
+                    WebProxy myProxy = new WebProxy("myproxy", 80);
+                    myProxy.BypassProxyOnLocal = true;
 
+                    wrGETURL.Proxy = WebProxy.GetDefaultProxy();
+
+                    Stream objStream;
+                    objStream = wrGETURL.GetResponse().GetResponseStream();
+                    StreamReader objReader = new StreamReader(objStream);
+                    string sLine = "";
+                    int i = 0;
+                    while (sLine != null)
+                    {
+                        i++;
+                        sLine = objReader.ReadLine();
+
+                        if (i == skill)
+                        {
+                            List<string> result = sLine.Split(',').ToList();
+                            Display.Items.Add(name + " has a "+ index +" lvl of " + result[1]);
+                        }
+                    }
+                    Console.ReadLine();
+
+                }
             }
-        }
-
-        private void skillComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
